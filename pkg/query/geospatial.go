@@ -23,7 +23,7 @@ type NearOperator M
 // Near returns geospatial objects in proximity to a point.
 // Requires a geospatial index.
 // https://docs.mongodb.com/manual/reference/operator/query/near/
-func Near(longitude, latitude) NearOperator {
+func Near(longitude, latitude float64) NearOperator {
 	return NearOperator{"$near": Geometry("Point", []float64{longitude, latitude})}
 }
 
@@ -143,6 +143,6 @@ func (op GeometryOperator) SetCRS(v interface{}) GeometryOperator {
 // Polygon specifies a polygon to using legacy coordinate pairs
 // for $geoWithin queries. The 2d index supports $center.
 // https://docs.mongodb.com/manual/reference/operator/query/polygon/
-func Polygon(point ...[2]float64{}) M {
-	return M{"$polygon": points}
+func Polygon(point ...[2]float64) M {
+	return M{"$polygon": point}
 }

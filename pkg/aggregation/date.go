@@ -378,15 +378,6 @@ func (op SecondOperator) SetTimezone(v interface{}) SecondOperator {
 	return op
 }
 
-// ToDate converts a value to a date.
-// If the value cannot be converted to a date, $toDate errors.
-// If the value is null or missing, $toDate returns null.
-// New in version 4.0.
-// https://docs.mongodb.com/manual/reference/operator/aggregation/toDate/
-func ToDate(expr interface{}) M {
-	return M{"$toDate": expr}
-}
-
 // WeekOperator returned from Week
 type WeekOperator M
 
