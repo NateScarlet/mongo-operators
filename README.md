@@ -1,4 +1,7 @@
-# mongodb-operators
+# mongo-operators
+
+[![godev](https://img.shields.io/static/v1?label=godev&message=reference&color=00add8)](https://pkg.go.dev/github.com/NateScarlet/mongo-operators)
+[![build status](https://github.com/NateScarlet/mongo-operators/workflows/go/badge.svg)](https://github.com/NateScarlet/mongo-operators/actions)
 
 Utility functions to create [mongodb](https://www.mongodb.com/) operator.
 
