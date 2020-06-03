@@ -37,11 +37,11 @@ func Lt(left, right interface{}) M {
 // Lte returns true if the first value is less than or equal to the second.
 // https://docs.mongodb.com/manual/reference/operator/aggregation/lte/
 func Lte(left, right interface{}) M {
-	return M{"$lt": A{left, right}}
+	return M{"$lte": A{left, right}}
 }
 
 // Ne returns true if the values are not equivalent.
 // https://docs.mongodb.com/manual/reference/operator/aggregation/ne/
 func Ne(left, right interface{}) M {
-	return M{"$lt": A{left, right}}
+	return M{"$ne": A{left, right}}
 }
