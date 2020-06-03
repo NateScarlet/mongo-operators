@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/NateScarlet/mongo-operators/compare/v0.1.1...v0.1.2) (2020-06-03)
+
+
+### Bug Fixes
+
+* aggregation Lte and Ne returns wrong operator ([ad955e8](https://github.com/NateScarlet/mongo-operators/commit/ad955e8a7a1f5537a4f090c270c4aafe6faaf743))
+
 ### [0.1.1](https://github.com/NateScarlet/mongo-operators/compare/v0.1.0...v0.1.1) (2020-05-25)
 
 
