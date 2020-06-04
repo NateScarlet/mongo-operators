@@ -241,7 +241,10 @@ func ListSessions(args interface{}) M {
 	return M{"$listSession": args}
 }
 
-// LookupF https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/#equality-match
+// LookupF perform an equality match between a field from the input documents
+// with a field from the documents of the “joined” collection.
+// New in version 3.2.
+// https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/#equality-match
 func LookupF(from, localField, foreignField, as string) M {
 	return M{"$lookup": M{
 		"from":         from,
@@ -251,22 +254,17 @@ func LookupF(from, localField, foreignField, as string) M {
 	}}
 }
 
-// LookupPStage returned from LookupP
-type LookupPStage M
-
-// LookupP https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/#join-conditions-and-uncorrelated-sub-queries
-func LookupP(from string, let M, pipeline A, as string) LookupPStage {
-	return LookupPStage{"$lookup": M{
+// LookupP perform uncorrelated subqueries between two collections
+// as well as allow other join conditions besides a single equality match.
+// New in version 3.2.
+// https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/#join-conditions-and-uncorrelated-sub-queries
+func LookupP(from string, let M, pipeline A, as string) M {
+	return M{"$lookup": M{
 		"from":     from,
+		"let":      let,
 		"pipeline": pipeline,
 		"as":       as,
 	}}
-}
-
-// SetLet option
-func (stage LookupPStage) SetLet(v interface{}) LookupPStage {
-	stage["$lookup"].(M)["let"] = v
-	return stage
 }
 
 // Match filters the document stream to allow only matching documents
