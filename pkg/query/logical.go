@@ -12,7 +12,7 @@ func And(expr ...interface{}) M {
 // Not inverts the effect of a query expression and returns documents
 // that do not match the query expression.
 // https://docs.mongodb.com/manual/reference/operator/query/not/
-func Not(expr ...interface{}) M {
+func Not(expr interface{}) M {
 	return M{"$not": expr}
 }
 

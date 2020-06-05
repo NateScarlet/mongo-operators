@@ -43,7 +43,7 @@ type EachModifier M
 // Each modifies the $push and $addToSet operators to
 // append multiple items for array updates.
 // https://docs.mongodb.com/manual/reference/operator/update/each/
-func Each(value ...interface{}) EachModifier {
+func Each(value interface{}) EachModifier {
 	return EachModifier{"$each": value}
 }
 
