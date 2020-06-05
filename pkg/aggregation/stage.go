@@ -259,12 +259,15 @@ func LookupF(from, localField, foreignField, as string) M {
 // New in version 3.2.
 // https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/#join-conditions-and-uncorrelated-sub-queries
 func LookupP(from string, let M, pipeline A, as string) M {
-	return M{"$lookup": M{
+	var opts = M{
 		"from":     from,
-		"let":      let,
 		"pipeline": pipeline,
 		"as":       as,
-	}}
+	}
+	if let != nil {
+		opts["let"] = let
+	}
+	return M{"$lookup": opts}
 }
 
 // Match filters the document stream to allow only matching documents
