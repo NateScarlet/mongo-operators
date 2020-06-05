@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/NateScarlet/mongo-operators/compare/v0.1.3...v0.2.0) (2020-06-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* accept interface{} instead of ...interface{} for some query operators
+
+### Features
+
+* accept interface{} instead of ...interface{} for some query operators ([51ea34e](https://github.com/NateScarlet/mongo-operators/commit/51ea34e122f655392c2af8b2b8b2d355fbe2269c))
+
 ### [0.1.3](https://github.com/NateScarlet/mongo-operators/compare/v0.1.2...v0.1.3) (2020-06-04)
 
 
