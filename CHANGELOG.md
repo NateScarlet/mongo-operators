@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/NateScarlet/mongo-operators/compare/v0.2.1...v0.2.2) (2020-06-05)
+
+
+### Bug Fixes
+
+* a.LookupP should not set `let` if nil ([8515cd9](https://github.com/NateScarlet/mongo-operators/commit/8515cd92a79fd8a5ed8c61949d02d3a6d86237fd))
+
 ### [0.2.1](https://github.com/NateScarlet/mongo-operators/compare/v0.2.0...v0.2.1) (2020-06-05)
 
 - invalidate goproxy cache for wrong v0.2.0 version
