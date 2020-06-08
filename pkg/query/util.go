@@ -1,7 +1,8 @@
 package query
 
-// Update merges multiple update operators in a last win manner.
-func Update(operators ...M) M {
+// MergeOperators in a last win manner.
+// only merge top level fields.
+func MergeOperators(operators ...M) M {
 	var ret = M{}
 	for _, i := range operators {
 		for k, v := range i {

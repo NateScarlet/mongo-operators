@@ -35,7 +35,7 @@ func find(ctx context.Context, col *mongo.Collection) {
 }
 
 func update(ctx context.Context, col *mongo.Collection) {
-    col.UpdateOne(ctx, M{}, q.Update(
+    col.UpdateOne(ctx, M{}, q.MergeOperators(
         q.Set(M{"name": "foo"}),
         q.Push(M{"tags": "bar"}),
     ))
