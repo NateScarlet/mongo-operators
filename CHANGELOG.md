@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/NateScarlet/mongo-operators/compare/v0.2.2...v0.3.0) (2020-06-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename q.Update -> q.MergeOperators
+
+* rename q.Update -> q.MergeOperators ([ceece34](https://github.com/NateScarlet/mongo-operators/commit/ceece3463aa44105f244135d9fcef7aa8671e0bd))
+
 ### [0.2.2](https://github.com/NateScarlet/mongo-operators/compare/v0.2.1...v0.2.2) (2020-06-05)
 
 
