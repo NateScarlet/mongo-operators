@@ -9,7 +9,8 @@ func Exists(v bool) M {
 }
 
 // Type selects documents if a field is of the specified type.
+// Changed in version 3.2.
 // https://docs.mongodb.com/manual/reference/operator/query/type/
-func Type(v bool) M {
-	return M{"$type": v}
+func Type(numberOrAlias interface{}) M {
+	return M{"$type": numberOrAlias}
 }
