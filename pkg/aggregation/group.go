@@ -1,6 +1,6 @@
 package aggregation
 
-// https://docs.mongodb.com/manual/reference/operator/aggregation/#accumulators-group
+// https://docs.mongodb.com/manual/reference/operator/aggregation/#accumulators---group---bucket---bucketauto---setwindowfields-
 
 // AddToSet returns an array of all unique values that results
 // from applying an expression to each document in a group of documents

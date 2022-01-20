@@ -39,6 +39,13 @@ func (op FilterOperator) SetAs(v string) FilterOperator {
 	return op
 }
 
+// FirstOfArray returns the first element in an array.
+// New in version 4.4.
+// https://docs.mongodb.com/manual/reference/operator/aggregation/first-array-element/
+func FirstOfArray(expr interface{}) M {
+	return M{"$first": expr}
+}
+
 // In returns a boolean indicating whether a specified value is in an array
 // https://docs.mongodb.com/manual/reference/operator/aggregation/in
 func In(elem, array interface{}) M {
@@ -82,6 +89,13 @@ func (op IndexOfArrayOperator) SetEnd(expr interface{}) IndexOfArrayOperator {
 // https://docs.mongodb.com/manual/reference/operator/aggregation/isArray/
 func IsArray(expr interface{}) M {
 	return M{"$isArray": A{expr}}
+}
+
+// LastOfArray returns the last element in an array.
+// New in version 4.4.
+// https://docs.mongodb.com/manual/reference/operator/aggregation/last-array-element/
+func LastOfArray(expr interface{}) M {
+	return M{"$last": expr}
 }
 
 // MapOperator returned from Map

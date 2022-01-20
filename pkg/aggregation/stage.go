@@ -99,6 +99,16 @@ func Count(outputField string) M {
 	return M{"$count": outputField}
 }
 
+// CurrentOp returns a stream of documents containing information
+// on active and/or dormant operations as well as inactive sessions
+// that are holding locks as part of a transaction.
+// The stage returns a document for each operation or session.
+// To run $currentOp, use the db.aggregate() helper on the admin database.
+// https://docs.mongodb.com/manual/reference/operator/aggregation/currentOp/
+func CurrentOp(options interface{}) M {
+	return M{"$currentOp": options}
+}
+
 // Facet Processes multiple aggregation pipelines within a single stage
 // on the same set of input documents.
 // Enables the creation of multi-faceted aggregations capable of
@@ -231,6 +241,13 @@ func IndexStats() M {
 // https://docs.mongodb.com/manual/reference/operator/aggregation/limit/
 func Limit(n int) M {
 	return M{"$limit": n}
+}
+
+// ListLocalSessions lists the sessions cached in memory by the mongod or mongos instance.
+// New in version 3.6.
+// https://docs.mongodb.com/manual/reference/operator/aggregation/listLocalSessions/
+func ListLocalSessions(args interface{}) M {
+	return M{"$listLocalSessions": args}
 }
 
 // ListSessions that have been active long enough to propagate to the
@@ -379,6 +396,15 @@ func Sample(size int) M {
 	return M{"$sample": M{"size": size}}
 }
 
+// Search aggregation pipleline stage performs a full-text search
+// of the field or fields in an Atlas collection.
+// The fields must be covered by an Atlas Search index.
+// https://docs.mongodb.com/manual/reference/operator/aggregation/search/
+// https://docs.atlas.mongodb.com/atlas-search/query-syntax/
+func Search(args interface{}) M {
+	return M{"$search": args}
+}
+
 // Set Adds new fields to documents.
 // Similar to $project, $set reshapes each document in the stream;
 // specifically, by adding new fields to output documents that contain
@@ -388,6 +414,116 @@ func Sample(size int) M {
 // https://docs.mongodb.com/manual/reference/operator/aggregation/set/
 func Set(fields interface{}) M {
 	return M{"$set": fields}
+}
+
+type SetWindowFieldsStage M
+
+type SetWindowFieldsStageOutput M
+
+func SetWindowFieldsOutput(field string, operator M) SetWindowFieldsStageOutput {
+	return SetWindowFieldsStageOutput{
+		field: operator,
+	}
+}
+
+func (o SetWindowFieldsStageOutput) operator() M {
+	for _, v := range o {
+		return v.(M)
+	}
+	panic("SetWindowFieldsOutput: output is empty")
+}
+
+func (o SetWindowFieldsStageOutput) window() M {
+	var op = o.operator()
+	if op["window"] == nil {
+		op["window"] = M{}
+	}
+	return op["window"].(M)
+}
+
+// SetDocuments set a window where the lower and upper boundaries
+// are specified relative to the position of the current document
+// read from the collection.
+//
+// The window boundaries are specified using a two element array containing a lower and upper limit string or integer. Use:
+//
+// The "current" string for the current document position in the output.
+// The "unbounded" string for the first or last document position in the partition.
+// An integer for a position relative to the current document.
+// Use a negative integer for a position before the current document.
+// Use a positive integer for a position after the current document.
+// 0 is the current document position.
+func (o SetWindowFieldsStageOutput) SetDocuments(lower, upper interface{}) SetWindowFieldsStageOutput {
+	o.window()["documents"] = A{lower, upper}
+	return o
+}
+
+// SetRange set a window where the lower and upper boundaries are defined
+// using a range of values based on the sortBy field in the current document.
+//
+// The window boundaries are specified using a two element array
+// containing a lower and upper limit string or number. Use:
+//
+// The "current" string for the current document position in the output.
+// The "unbounded" string for the first or last document position in the partition.
+// A number to add to the value of the sortBy field for the current document.
+// A document is in the window if the sortBy field value
+// is inclusively within the lower and upper boundaries.
+func (o SetWindowFieldsStageOutput) SetRange(lower, upper interface{}) SetWindowFieldsStageOutput {
+	o.window()["range"] = A{lower, upper}
+	return o
+}
+
+type SetWindowFieldsUnit string
+
+const (
+	SWFUYear        SetWindowFieldsUnit = "year"
+	SWFUQuarter     SetWindowFieldsUnit = "quarter"
+	SWFUMonth       SetWindowFieldsUnit = "month"
+	SWFUWeek        SetWindowFieldsUnit = "week"
+	SWFUDay         SetWindowFieldsUnit = "day"
+	SWFUHour        SetWindowFieldsUnit = "hour"
+	SWFUMinute      SetWindowFieldsUnit = "minute"
+	SWFUSecond      SetWindowFieldsUnit = "second"
+	SWFUMillisecond SetWindowFieldsUnit = "millisecond"
+)
+
+func (o SetWindowFieldsStageOutput) SetUnit(unit SetWindowFieldsUnit) SetWindowFieldsStageOutput {
+	o.window()["unit"] = unit
+	return o
+}
+
+// SetWindowFields groups documents into windows and applies one or more operators
+// to the documents in each window.
+// New in version 5.0.
+// https://docs.mongodb.com/manual/reference/operator/aggregation/setWindowFields/
+func SetWindowFields(outputs ...SetWindowFieldsStageOutput) SetWindowFieldsStage {
+	var output = M{}
+	for _, i := range outputs {
+		for k, v := range i {
+			output[k] = v
+		}
+	}
+	return SetWindowFieldsStage{
+		"$setWindowFields": M{
+			"output": output,
+		},
+	}
+}
+
+// SetPartitionBy specifies an expression to group the documents.
+// In the $setWindowFields stage, the group of documents is known as a partition.
+// Default is one partition for the entire collection.
+func (stage SetWindowFieldsStage) SetPartitionBy(expression interface{}) SetWindowFieldsStage {
+	stage["$setWindowFields"].(M)["partitionBy"] = expression
+	return stage
+}
+
+// SetSortBy specifies the field(s) to sort the documents by in the partition.
+// Uses the same syntax as the $sort stage. Default is no sorting.
+func (stage SetWindowFieldsStage) SetSortBy(sort interface{}) SetWindowFieldsStage {
+	stage["$setWindowFields"].(M)["sortBy"] = sort
+	return stage
 }
 
 // Skip the first n documents where n is the specified skip number and passes
@@ -412,6 +548,22 @@ func Sort(order interface{}) M {
 // https://docs.mongodb.com/manual/reference/operator/aggregation/sortByCount/
 func SortByCount(expr interface{}) M {
 	return M{"$sortByCount": expr}
+}
+
+// UnionWith performs a union of two collections;
+// i.e. $unionWith combines pipeline results
+// from two collections into a single result set.
+// The stage outputs the combined result set (including duplicates) to the next stage.
+// New in version 4.4.
+// https://docs.mongodb.com/manual/reference/operator/aggregation/unionWith/
+func UnionWith(collection string, pipeline interface{}) M {
+	if pipeline == nil {
+		return M{"$unionWith": M{"coll": collection}}
+	}
+	return M{"$unionWith": M{
+		"coll":     collection,
+		"pipeline": pipeline,
+	}}
 }
 
 // Unset removes/excludes fields from documents.

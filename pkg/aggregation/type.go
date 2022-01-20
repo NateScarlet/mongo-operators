@@ -27,6 +27,23 @@ func (op ConvertOperator) SetOnNull(expr interface{}) ConvertOperator {
 	return op
 }
 
+// IsNumber checks if the specified expression
+// resolves to one of the following numeric BSON types:
+//
+// - Integer
+// - Decimal
+// - Double
+// - Long
+//
+// $isNumber returns:
+//   true if the expression resolves to a number.
+//   false if the expression resolves to any other BSON type, null, or a missing field.
+//
+// https://docs.mongodb.com/manual/reference/operator/aggregation/isNumber/
+func IsNumber(expr interface{}) M {
+	return M{"$isNumber": expr}
+}
+
 // ToBool converts value to a boolean.
 // New in version 4.0.
 // https://docs.mongodb.com/manual/reference/operator/aggregation/toBool/

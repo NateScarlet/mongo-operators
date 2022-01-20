@@ -130,6 +130,35 @@ func (op RegexMatchOperator) SetOptions(expr interface{}) RegexMatchOperator {
 	return op
 }
 
+// ReplaceOne replaces the first instance of a search string
+// in an input string with a replacement string.
+// If no occurrences are found, $replaceOne evaluates to the input string.
+// New in version 4.4.
+// https://docs.mongodb.com/manual/reference/operator/aggregation/replaceOne/
+func ReplaceOne(input, find, replacement interface{}) M {
+	return M{
+		"$replaceOne": M{
+			"input":       input,
+			"find":        find,
+			"replacement": replacement,
+		},
+	}
+}
+
+// ReplaceAll replaces all instances
+// of a search string in an input string with a replacement string.
+// New in version 4.4.
+// https://docs.mongodb.com/manual/reference/operator/aggregation/replaceAll/
+func ReplaceAll(input, find, replacement interface{}) M {
+	return M{
+		"$replaceOne": M{
+			"input":       input,
+			"find":        find,
+			"replacement": replacement,
+		},
+	}
+}
+
 // RTrimOperator returned from RTrim
 type RTrimOperator M
 
